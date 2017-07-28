@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+
+require('../src/checkVersions')();
+const pkg = require('../package.json');
+
+/**
+ * Parse Commands
+ */
+const program = require('commander');
+program
+    .usage('<task> [options]')
+    .version(pkg.version)
+    .command('init <project-name>', 'Initialize a project')
+    .command('start', 'Start server')
+    .parse(process.argv);

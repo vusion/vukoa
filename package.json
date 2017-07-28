@@ -1,0 +1,50 @@
+{
+  "name": "vukoa",
+  "description": "Vue + Koa",
+  "version": "0.0.1",
+  "author": "Rainfore <rainforest92@126.com>",
+  "contributors": [
+    "hzlinguanfu <770511401@qq.com>"
+  ],
+  "preferGlobal": true,
+  "bin": {
+    "vukoa": "bin/vukoa"
+  },
+  "scripts": {
+    "precommit": "bash node_modules/vusion-hooks/pre-commit"
+  },
+  "repository": "vusion/vukoa",
+  "homepage": "http://vusion.github.io",
+  "bugs": {
+    "url": "http://github.com/vusion/vukoa/issues"
+  },
+  "license": "MIT",
+  "keywords": [
+    "vue",
+    "koa",
+    "cli",
+    "full-stack"
+  ],
+  "tags": [
+    "vue",
+    "koa",
+    "cli",
+    "full-stack"
+  ],
+  "engines": {
+    "node": ">= 6.0.0",
+    "npm": ">= 3.0.0"
+  },
+  "dependencies": {
+    "chalk": "^2.0.1",
+    "commander": "^2.11.0",
+    "semver": "^5.4.1",
+    "shelljs": "^0.7.8"
+  },
+  "devDependencies": {
+    "eslint": "^4.3.0",
+    "eslint-config-vusion": "^1.2.0",
+    "husky": "^0.13.3",
+    "vusion-hooks": "^0.1.0"
+  }
+}
