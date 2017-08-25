@@ -12,4 +12,5 @@ program
     .version(pkg.version)
     .command('init <project-name>', 'Initialize a project')
     .command('start', 'Start server')
+    .command('dev', 'Start server with webpack dev middleware')
     .parse(process.argv);

@@ -1,0 +1,50 @@
+#!/usr/bin/env node
+
+const path = require('path');
+const opn = require('opn');
+
+/**
+ * Parse Commands
+ */
+const program = require('commander');
+program
+    .option('-b, --open-browser', 'Open browser when start server')
+    .option('-B, --build', 'Build files in the beginning')
+    .option('-p, --port <port>', 'Web Server Port', parseInt)
+    .parse(process.argv);
+
+/**
+ * Execute Task
+ */
+const vukoaConfig = global.vukoaConfig = require('../config/resolve')();
+const vusionConfig = global.vusionConfig = require('vusion-cli/config/resolve')();
+
+if (program.port)
+    vukoaConfig.port = program.port;
+const port = vukoaConfig.port;
+
+const url = `http://localhost:${port}`;
+
+let promise = Promise.resolve();
+if (program.build) {
+    // @TODO: 先保存一下env状态，vukoa和vusion的'producion'使用场景不一定一致，待优化
+    const savedEnv = process.env.NODE_ENV;
+    process.env.NODE_ENV = 'production';
+    const compiler = require('vusion-cli/lib/build')(require('vusion-cli/webpack/' + vusionConfig.type));
+    process.env.NODE_ENV = savedEnv || 'development';
+
+    promise = compiler.run();
+}
+
+promise.then(() => {
+    const app = require(path.resolve(process.cwd(), vukoaConfig.entry))(vukoaConfig);
+
+    app.listen(port, (err) => {
+        if (err)
+            return console.error(err);
+
+        if (program.openBrowser)
+            opn(url);
+        console.info(`Server listen on ${port}`);
+    });
+});

@@ -24,15 +24,26 @@ npm install -g vukoa
 ## Commands
 
 - `vukoa help`: Show help of all commands
+- `vukoa -V, --version`: Show the version of current CLI
 
 - `vukoa init <project-name>`: Initalize a vukoa project
 - `vukoa start`: Start server
-
-- `-p, --port <port>`: WebpackDevServer port in dev mode
-- `vukoa -V, --version`: Show the version of current CLI
+    - `-b, --open-browser`: Open browser when start server
+    - `-B, --build`: Build files in the beginning
+    - `-p, --port <port>`: Web Server Port
+- `vukoa dev`: Start server with webpack dev middleware
+    - `-b, --open-browser`: Open browser when start server
+    - `-p, --port <port>`: WebpackDevServer port in dev mode
 
 ## Configuration
 
 ``` js
-{}
+{
+    type: '',                       // Project type
+    root: '',                       // Project root
+    port: 8000,                     // Server port
+    entry: '',                      // Server start entry
+    controller: '',                 // Controller path
+    routes: '',                     // Routes path
+};
 ```
