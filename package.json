@@ -1,7 +1,7 @@
 {
   "name": "vukoa",
   "description": "Vue + Koa",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Rainfore <rainforest92@126.com>",
   "contributors": [
     "hzlinguanfu <770511401@qq.com>"
@@ -42,11 +42,11 @@
     "chalk": "^2.0.1",
     "commander": "^2.11.0",
     "koa-webpack-dev-middleware": "^1.4.6",
+    "koa-webpack-hot-middleware": "^1.0.3",
     "opn": "^5.1.0",
     "semver": "^5.4.1",
     "shelljs": "^0.7.8",
-    "vusion-cli": "~0.4.2",
-    "webpack-hot-middleware": "^2.18.2"
+    "vusion-cli": "~0.4.3"
   },
   "devDependencies": {
     "eslint": "^4.3.0",
