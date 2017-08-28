@@ -1,7 +1,7 @@
 {
   "name": "vukoa",
   "description": "Vue + Koa",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Rainfore <rainforest92@126.com>",
   "contributors": [
     "hzlinguanfu <770511401@qq.com>"
@@ -46,7 +46,7 @@
     "opn": "^5.1.0",
     "semver": "^5.4.1",
     "shelljs": "^0.7.8",
-    "vusion-cli": "~0.4.3"
+    "vusion-cli": "~0.4.4"
   },
   "devDependencies": {
     "eslint": "^4.3.0",

@@ -27,7 +27,7 @@ const port = vukoaConfig.port;
 
 const url = `http://localhost:${port}`;
 
-const { compiler, devOptions } = require('vusion-cli/lib/dev').prepare(require('vusion-cli/webpack/' + vusionConfig.type), url);
+const { compiler, devOptions } = require('vusion-cli/lib/dev').prepare(require('vusion-cli/webpack/' + vusionConfig.type));
 
 const app = require(path.resolve(process.cwd(), vukoaConfig.entry))(vukoaConfig);
 app.use(webpackDevMiddleware(compiler, devOptions));
