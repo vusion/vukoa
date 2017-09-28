@@ -11,7 +11,8 @@
     "vukoa": "bin/vukoa",
     "vukoa-init": "bin/vukoa-init",
     "vukoa-start": "bin/vukoa-start",
-    "vukoa-dev": "bin/vukoa-dev"
+    "vukoa-dev": "bin/vukoa-dev",
+    "vukoa-doc": "bin/vukoa-doc"
   },
   "scripts": {
     "precommit": "bash node_modules/vusion-hooks/pre-commit"
@@ -40,7 +41,10 @@
   },
   "dependencies": {
     "chalk": "^2.0.1",
+    "chokidar": "1.7.0",
     "commander": "^2.11.0",
+    "doctrine": "2.0.0",
+    "glob": "7.1.2",
     "koa-webpack-dev-middleware": "^1.4.6",
     "koa-webpack-hot-middleware": "^1.0.3",
     "opn": "^5.1.0",

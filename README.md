@@ -34,6 +34,11 @@ npm install -g vukoa
 - `vukoa dev`: Start server with webpack dev middleware
     - `-b, --open-browser`: Open browser when start server
     - `-p, --port <port>`: WebpackDevServer port in dev mode
+- `vukoa doc`: Generate Document By jsDoc
+    - `-d, --definition <swaggerDef.js>`, 'Input swagger definition.'
+    - `-o, --output [swaggerSpec.json]`, 'Output swagger specification.'
+    - `-w, --watch`, 'Whether or not to listen for continous changes.'
+    - `-a, --args <api.js>`, 'api doc files.'
 
 ## Configuration
 
@@ -47,3 +52,14 @@ npm install -g vukoa
     routes: '',                     // Routes path
 };
 ```
+
+## todo: vukoa-doc
+
+`-d`的参数需要集合到vukoaConfig当中。
+
+目前使用vukoa-doc必然需要添加参数。使用如下：
+`vukoa-doc -d example/swaggerDef.js`
+
+swaggerDef的参数配置参照`example/swaggerDef.js`.
+
+最终文案的可视化，因为文件存在本地，需要起一个本地的服务。之后也需要讨论如何整理进vukoa的配置当中。
