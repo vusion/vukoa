@@ -13,13 +13,12 @@ program
 /**
  * Execute Task
  */
-const projectType = 'full-stack';
+const projectType = 'fullstack';
 const projectName = program.args[0] || 'my-project';
-const folder = projectType;
 
 const URL = 'https://github.com/vusion/vusion-templates.git';
 shell.exec(`git clone -b master --depth 1 ${URL}`);
-shell.mv('vusion-templates/' + folder, './' + projectName);
+shell.mv('vusion-templates/' + projectType, './' + projectName);
 shell.rm('-rf', 'vusion-templates');
 
-console.info(`Initialized "${projectName}".`);
+console.info(`[SUCCESS] "${projectName}" has been initialized.`);
