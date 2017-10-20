@@ -1,18 +1,19 @@
 {
     "userInfo": [
         {
-            "userName": "nostrud qui",
-            "avatar": "nulla Ut",
-            "isNotNce": "sint commo",
-            "status": "nostrud officia",
+            "userName": "ipsum",
+            "avatar": "ex et minim nostrud",
+            "isNotNce": "incididunt qui quis commodo",
+            "status": "velit nostrud do",
+            "hahaha": "test2",
             "id": 1
         }
     ],
     "pets": [
         {
             "id": 1,
-            "name": "mollit incididunt qui",
-            "tag": "par"
+            "name": "proident dolor",
+            "tag": "Ut officia"
         }
     ],
     "userInfo-get-401": {
@@ -26,6 +27,10 @@
     "userInfo-get-500": {
         "code": "500",
         "msg": "服务器内部错误"
+    },
+    "undefined-post-403": {
+        "code": "403",
+        "msg": "操作无效，请核对接口参数"
     },
     "pet-get-500": {
         "code": "500",

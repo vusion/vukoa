@@ -40,7 +40,7 @@
         ]
       }
     },
-    "/api/{userName}/save": {
+    "/api/:userName/save": {
       "post": {
         "description": "保存订单信息",
         "parameters": [
@@ -162,8 +162,7 @@
           "description": "合法用户标记"
         },
         "hahaha": {
-          "type": "#/parameters/testStatus",
-          "description": "测试状态参数"
+          "$ref": "#/parameters/testStatus"
         }
       }
     },

@@ -58,9 +58,15 @@ npm install -g vukoa
 
 ## todo: vukoa-doc
 
-最终文案的可视化，因为文件存在本地，需要起一个本地的服务。之后也需要讨论如何整理进vukoa的配置当中。
+> todo: `-b`的功能需要全局安装`puer`，需要后期整合优化。
+
+```
+npm -g i puer
+```
 
 ## vukoa-mock
+
+使用方法见：`./example/README.md`.
 
 - 添加某项
 ```
