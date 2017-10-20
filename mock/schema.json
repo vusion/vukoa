@@ -1,0 +1,38 @@
+{
+    "userInfo": [
+        {
+            "userName": "nostrud qui",
+            "avatar": "nulla Ut",
+            "isNotNce": "sint commo",
+            "status": "nostrud officia",
+            "id": 1
+        }
+    ],
+    "pets": [
+        {
+            "id": 1,
+            "name": "mollit incididunt qui",
+            "tag": "par"
+        }
+    ],
+    "userInfo-get-401": {
+        "code": "401",
+        "msg": "该用户不具备操作权限"
+    },
+    "userInfo-get-403": {
+        "code": "403",
+        "msg": "操作无效，请核对接口参数"
+    },
+    "userInfo-get-500": {
+        "code": "500",
+        "msg": "服务器内部错误"
+    },
+    "pet-get-500": {
+        "code": "500",
+        "msg": "默认错误"
+    },
+    "pets-get-500": {
+        "code": "500",
+        "msg": "复数的操作错误"
+    }
+}

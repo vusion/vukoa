@@ -1,0 +1,155 @@
+#!/usr/bin/env node
+
+const fs = require('fs-extra');
+const path = require('path');
+const shelljs = require('shelljs');
+const JSONSchema = require('../lib/mock');
+const jsonServer = require('json-server');
+const chokidar = require('chokidar');
+
+/**
+ * Parse Commands
+ */
+const program = require('commander');
+program
+    // todo: 暂时不提供mock指令的watch参数
+    // .option('-w, --watch', 'Whether or not to listen for continous changes.')
+    .option('-e, --error' , 'The error Resolvers Mock')
+    //   .option('-m, --middlewares' , 'The middlewares')
+  .parse(process.argv);
+
+/**
+ * Execute Task
+ */
+
+/**
+ * ROUTE_PATH:      路由重写的文件位置
+ * SCHEMA_PATH:     json-server 需要的json文件位置
+ * SWAGGER_PATH:    swagger specification 的文件位置
+ */
+const schemaName = 'schema.json';
+// todo: 这里的名称和vukoa-doc中保持一致，如果要修改怎要改两处。待优化
+const swaggerSpecName = 'swaggerSpec.json';
+let {mockPath, root, port, controller: apis} = global.vukoaConfig = require('../config/resolve')();
+const ROUTE_PATH = path.resolve(root, mockPath, 'routes.json');
+const SCHEMA_PATH = path.resolve(root, mockPath, schemaName);
+const SWAGGER_PATH = path.resolve(root, mockPath, swaggerSpecName);
+
+// todo: 如何将middlewares添加入主流程当中
+// const middlewares = program.middlewares || './example/dist/middlewares/test.js';
+
+/**
+ * 过滤swagger specification中的信息，获取JSON Schema用于生成mock的源信息
+ * @function
+ * @param {object<json>} schemas - mock的源信息
+ * @param {object} paths - swagger spec 中的paths字段信息（todo: 需要再整合下内容）
+ */
+function createSchema(schemas, paths) { 
+    // JSON.stringify的用法见：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
+    if( typeof schemas !== 'string')
+        schemas = JSON.stringify(schemas, null ,4);
+
+    fs.writeFile(SCHEMA_PATH, schemas, (err) => {
+        if(!err) {
+            console.log('schemas 生成成功！');
+            startServer(paths);
+            // shelljs.exec(`json-server ${output} --routes ${ROUTE_PATH} --port ${port} --middlewares ${middlewares}`);
+        }
+    })
+}
+
+function startServer(swaggerPaths) {
+    const server = jsonServer.create();
+    const schemas = require(SCHEMA_PATH);
+    const router = jsonServer.router(SCHEMA_PATH);
+    const middlewares = jsonServer.defaults();
+    const rewiteRouteJSON = require(ROUTE_PATH);
+
+    server.use(middlewares);
+    // To handle POST, PUT and PATCH you need to use a body-parser
+    // You can use the one used by JSON Server
+    server.use(jsonServer.bodyParser)
+
+    // mock后端给出错误提示信息的开关由启动时给出参数来设置
+    // todo: 针对指定的接口的错误情况返回。
+    if(program.error) {
+        router.render = (req, res) => {
+            // index: 随机的错误情形列表中的索引
+            // instanceName: 接口相关的数据实例
+            let instanceName, index;
+            // url会被jsonServer.rewriter给重写。这里使用originalUrl。不会有影响
+            const url = req.originalUrl;
+            const method = req.method.toLowerCase();
+            // errors: 接口可能的所有错误信息列表
+            const errors = [];  
+
+            // 通过swaggerSpec.json中的path -> method -> tags字段，获取instanceName
+            const urlFragments = url.slice(1).split('/');
+            for(let pathName in swaggerPaths) {
+                const path = swaggerPaths[pathName];
+                const description = path[method].description;
+                const isSameLength = pathName.slice(1).split('/').length === urlFragments.length;
+                const isSamePath = isSameLength && pathName.slice(1).split('/').every((pathFragment, index) => {
+                    if(pathFragment.startsWith(':') || pathFragment.startsWith('{'))
+                        return true;
+                    return pathFragment === urlFragments[index];
+                });
+                
+                if(isSamePath) {
+                    instanceName = (description && description.startsWith('['))
+                        ? description.split(/\[(.+)\]/)[1]
+                        : path[method].tags[0];
+                    break;
+                }
+            }
+
+            // 没有找到对应的instanceName，则返回一个默认错误信息
+            if(!instanceName) {
+                res.status(404).jsonp({
+                    code: 404,
+                    msg: '未找到请求资源',
+                });
+            }
+
+            for(let schema in schemas) {
+                if( schema.includes('-') && schema.split('-')[0] === instanceName)
+                    errors.push(schemas[schema]);
+            }
+
+            index = Math.floor(Math.random(1) * errors.length);
+            const error = errors[index];
+            /**
+             * error
+             * @param {number} code code码
+             * @param {string} msg  错误信息
+             */
+            res.status(error.code).jsonp(error);
+        };
+    } else {
+        // 通过重写route.render方法，可以自定制原有的response返回
+        // 这是包裹一层code返回，满足线上的返回方式
+        router.render = (req, res) => {
+            res.jsonp({
+                code: 200,
+                result: res.locals.data
+            })
+        };
+    }
+
+    // 重写路由规则
+    // 这个是考虑到json-server中只有一层，将接口摊平了。
+    // 面对实际的、复杂的接口，需要多做一层处理
+    server.use(jsonServer.rewriter(rewiteRouteJSON));
+      
+    server.use(router);
+    server.listen(port, () => {
+        console.log('JSON Server is running')
+    });
+}
+
+fs.readFile(SWAGGER_PATH, 'utf8', (err, data) => {
+    // 如果有err，则表示还没有生成对应的swagger Specification文件
+    const {schemas, paths} = JSONSchema(!err);
+
+    createSchema(schemas, paths);
+});

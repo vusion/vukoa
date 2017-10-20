@@ -14,5 +14,5 @@ program
     .command('start', 'Start server')
     .command('dev', 'Start server with webpack dev middleware')
     .command('doc', 'Generate Document By jsDoc.')
-    // .command('mock', 'Start mockserver.')
+    .command('mock', 'Start mockserver.')
     .parse(process.argv);

@@ -1,0 +1,220 @@
+{
+  "info": {
+    "title": "Hello World",
+    "version": "1.0.0",
+    "description": "A sample API"
+  },
+  "basePath": "/",
+  "swagger": "2.0",
+  "paths": {
+    "/api/v2/users/info": {
+      "get": {
+        "description": "获取用户信息",
+        "parameters": [
+          {
+            "name": "testNum",
+            "type": "number",
+            "description": "just for param test",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "正常返回",
+            "schema": {
+              "$ref": "#/definitions/userInfo"
+            }
+          },
+          "401": {
+            "description": "该用户不具备操作权限"
+          },
+          "403": {
+            "description": "操作无效，请核对接口参数"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        },
+        "tags": [
+          "userInfo"
+        ]
+      }
+    },
+    "/api/{userName}/save": {
+      "post": {
+        "description": "保存订单信息",
+        "parameters": [
+          {
+            "$ref": "#/parameters/testType"
+          },
+          {
+            "in": "path",
+            "name": "useName",
+            "type": "string",
+            "description": "the desciption"
+          },
+          {
+            "default": "JohnDoe",
+            "name": "somebody",
+            "type": "string",
+            "description": "Somebody's name.",
+            "in": "query"
+          },
+          {
+            "required": true,
+            "name": "useName",
+            "type": "string",
+            "description": "the description",
+            "in": "query"
+          },
+          {
+            "name": "abc",
+            "type": "string",
+            "description": "the description",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "操作无效，请核对接口参数"
+          }
+        },
+        "tags": []
+      }
+    },
+    "/pets/:petId": {
+      "get": {
+        "description": "[pet]获取宠物信息",
+        "parameters": [
+          {
+            "required": true,
+            "name": "petId",
+            "type": "string",
+            "description": "The id of the pet to retrieve",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "正常返回",
+            "schema": {
+              "$ref": "#/definitions/pet"
+            }
+          },
+          "default": {
+            "description": "默认错误"
+          }
+        },
+        "tags": [
+          "pets"
+        ]
+      }
+    },
+    "/pets": {
+      "get": {
+        "description": "获取宠物信息列表",
+        "parameters": [
+          {
+            "default": "'20'",
+            "name": "limit",
+            "type": "string",
+            "description": "How many items to return at one time (max 100)",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "正常返回",
+            "schema": {
+              "$ref": "#/definitions/pets"
+            }
+          },
+          "default": {
+            "description": "复数的操作错误"
+          }
+        },
+        "tags": [
+          "pets"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "userInfo": {
+      "type": "object",
+      "description": "The difination of userInfo",
+      "required": [],
+      "properties": {
+        "userName": {
+          "type": "string",
+          "description": "用户名"
+        },
+        "avatar": {
+          "type": "string",
+          "description": "头像资源类型"
+        },
+        "isNotNce": {
+          "type": "string",
+          "description": "是否蜂巢用户标记"
+        },
+        "status": {
+          "type": "string",
+          "description": "合法用户标记"
+        },
+        "hahaha": {
+          "type": "#/parameters/testStatus",
+          "description": "测试状态参数"
+        }
+      }
+    },
+    "pet": {
+      "type": "object",
+      "description": "[pets] The difination of pet",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "number",
+          "description": "唯一标示"
+        },
+        "name": {
+          "type": "string",
+          "description": "名称"
+        },
+        "tag": {
+          "type": "string",
+          "description": "标签"
+        }
+      }
+    },
+    "pets": {
+      "type": "array",
+      "item": {
+        "$refs": "#/definitions/pet"
+      }
+    }
+  },
+  "responses": {},
+  "parameters": {
+    "testStatus": {
+      "name": [
+        "testStatus"
+      ],
+      "type": "string",
+      "enum": [
+        "test1",
+        "test2"
+      ]
+    },
+    "testType": {
+      "name": "testType",
+      "type": "number",
+      "description": "Number of persons returned",
+      "in": "query"
+    }
+  },
+  "securityDefinitions": {},
+  "tags": []
+}

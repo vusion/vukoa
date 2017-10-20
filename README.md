@@ -35,10 +35,11 @@ npm install -g vukoa
     - `-b, --open-browser`: Open browser when start server
     - `-p, --port <port>`: WebpackDevServer port in dev mode
 - `vukoa doc`: Generate Document By jsDoc
-    - `-d, --definition <swaggerDef.js>`, 'Input swagger definition.'
-    - `-o, --output [swaggerSpec.json]`, 'Output swagger specification.'
+    - `-b, --openBrowser`: 'Whether or not to open default browser to show the doc.'
     - `-w, --watch`, 'Whether or not to listen for continous changes.'
-    - `-a, --args <api.js>`, 'api doc files.'
+    - `-m, --mock`, 'Whether or not to used by vukoa-mock command.'
+- `vukoa mock`: start the mock server
+    - `-e, --error`, 'Start the error case for mock server.'
 
 ## Configuration
 
@@ -50,16 +51,25 @@ npm install -g vukoa
     entry: '',                      // Server start entry
     controller: '',                 // Controller path
     routes: '',                     // Routes path
+    specification: '',               // basic infos in swagger specification(Optional)
+    mockPath: '',                       // the depends files dir for mockServer(Optional: __dirname/mock)
 };
 ```
 
 ## todo: vukoa-doc
 
-`-d`的参数需要集合到vukoaConfig当中。
-
-目前使用vukoa-doc必然需要添加参数。使用如下：
-`vukoa-doc -d example/swaggerDef.js`
-
-swaggerDef的参数配置参照`example/swaggerDef.js`.
-
 最终文案的可视化，因为文件存在本地，需要起一个本地的服务。之后也需要讨论如何整理进vukoa的配置当中。
+
+## vukoa-mock
+
+- 添加某项
+```
+curl -d 'name=mimi&&tag=cat' 'localhost:8000/pets'
+```
+
+- 删除某项
+```
+curl -X DELETE localhost:8000/pets/2
+```
+
+note: 如果列表中为空，则新添加的项自动添加的id为从1开始。如果列表不为空，则新添加项的id为已有项中最大的id数+1.
