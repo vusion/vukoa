@@ -4,6 +4,7 @@ const path = require('path');
 const opn = require('opn');
 const webpackDevMiddleware = require('koa-webpack-dev-middleware');
 const webpackHotMiddleware = require('koa-webpack-hot-middleware');
+const debug = require('debug')('vukoa:vukoa-dev');
 
 /**
  * Parse Commands
@@ -27,11 +28,13 @@ const port = vukoaConfig.port;
 
 const url = `http://localhost:${port}`;
 
-const { compiler, devOptions } = require('vusion-cli/lib/dev').prepare(require('vusion-cli/webpack/' + vusionConfig.type));
-
 const app = require(path.resolve(process.cwd(), vukoaConfig.entry))(vukoaConfig);
-app.use(webpackDevMiddleware(compiler, devOptions));
-app.use(webpackHotMiddleware(compiler));
+debug('是否只渲染node端 process.env.ONLY_NODE: %j', process.env.ONLY_NODE);
+if (!process.env.ONLY_NODE) {
+    const { compiler, devOptions } = require('vusion-cli/lib/dev').prepare(require('vusion-cli/webpack/' + vusionConfig.type));
+    app.use(webpackDevMiddleware(compiler, devOptions));
+    app.use(webpackHotMiddleware(compiler));
+}
 
 app.listen(port, (err) => {
     if (err)
