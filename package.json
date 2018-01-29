@@ -47,7 +47,7 @@
     "opn": "^5.1.0",
     "semver": "^5.4.1",
     "shelljs": "^0.7.8",
-    "vusion-cli": "~0.5.0"
+    "vusion-cli": "~0.6.0"
   },
   "devDependencies": {
     "eslint": "^4.3.0",
