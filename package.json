@@ -52,7 +52,7 @@
     "vusion-cli": "*"
   },
   "devDependencies": {
-    "eslint": "^4.3.0",
+    "eslint": "^6.6.0",
     "eslint-config-vusion": "^2.0.0",
     "husky": "^0.13.3",
     "vusion-hooks": "^0.2.2"
