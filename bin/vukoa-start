@@ -17,7 +17,6 @@ program
  * Execute Task
  */
 const vukoaConfig = global.vukoaConfig = require('../config/resolve')();
-const vusionConfig = global.vusionConfig = require('vusion-cli/config/resolve')();
 
 if (program.port)
     vukoaConfig.port = program.port;
@@ -27,6 +26,7 @@ const url = `http://localhost:${port}`;
 
 let promise = Promise.resolve();
 if (program.build) {
+    const vusionConfig = global.vusionConfig = require('vusion-cli/config/resolve')();
     // @TODO: 先保存一下env状态，vukoa和vusion的'producion'使用场景不一定一致，待优化
     const savedEnv = process.env.NODE_ENV;
     process.env.NODE_ENV = 'production';
